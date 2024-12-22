@@ -1,0 +1,80 @@
+{
+	"name": "dataflowweblogs",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "WebSrc"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticsTable6",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenameCol"
+				},
+				{
+					"name": "SpliotLog"
+				},
+				{
+					"name": "MapColumns"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {2024-12-20 14:16:24 10.0.0.4 GET / - 80 - 141.98.11.155 - - 200 0 0 325} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     skipLines: 4) ~> WebSrc",
+				"WebSrc select(mapColumn(",
+				"          Logs = {2024-12-20 14:16:24 10.0.0.4 GET / - 80 - 141.98.11.155 - - 200 0 0 325}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameCol",
+				"RenameCol derive(Logs = split(Logs,\" \")) ~> SpliotLog",
+				"SpliotLog derive(LogDate = Logs[1],",
+				"          IPAddres = Logs[9],",
+				"          RequestMethod = Logs[4],",
+				"          RequestResource = Logs[5]) ~> MapColumns",
+				"MapColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          logdate as date,",
+				"          ipaddress as string,",
+				"          requestmethod as string,",
+				"          requestresource as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          logdate = LogDate,",
+				"          ipaddress = IPAddres,",
+				"          requestmethod = RequestMethod,",
+				"          requestresource = RequestResource",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

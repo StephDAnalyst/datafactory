@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_5my",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "syn203",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ActivityLog01"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

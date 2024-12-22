@@ -1,0 +1,34 @@
+{
+	"name": "AzureSynapseAnalyticsTable6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "syn203",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "logdate",
+				"type": "date"
+			},
+			{
+				"name": "ipaddress",
+				"type": "varchar"
+			},
+			{
+				"name": "requestmethod",
+				"type": "varchar"
+			},
+			{
+				"name": "requestresource",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "WebLogs"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

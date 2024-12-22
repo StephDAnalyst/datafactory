@@ -1,0 +1,9 @@
+{
+	"name": "daf203",
+	"location": "westus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8021d656-06a1-43ab-919e-0b6c8f3c3691",
+		"tenantId": "8d7f8968-3716-48a7-bd40-bf52adde4635"
+	}
+}
